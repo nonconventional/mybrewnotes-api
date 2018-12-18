@@ -1,0 +1,12 @@
+{
+  "id": "NV7rIbhSOhwivbiKlksj",
+  "name": "Name",
+  "description": "Description",
+  "batchSize": "1 gallon",
+  "ingredients": [
+    "Ingredient"
+  ],
+  "steps": [
+    "Step"
+  ]
+}
