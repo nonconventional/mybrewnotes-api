@@ -1,20 +1,4 @@
-class Brew(PaginatedAPIMixin, BrewMixin, db.Model):
-    def to_dict(self):
-        data = {
-            'id': self.id,
-            "name": self.name,
-            "description": self.description,
-            "batchSize": self.batch_size
-            # "ingredients": self.ingredients,
-            # "steps": self.steps,
-        }
-    return data
-
-    def from_dict(self, data, new_brew=False):
-        for field in ['name', 'description', 'batchsize']:
-            if field in data:
-                setattr(self, field, data[field])
-
+from app import db
 
 class PaginatedAPIMixin(object):
     @staticmethod
@@ -38,3 +22,29 @@ class PaginatedAPIMixin(object):
             }
         }
         return data
+
+class Brew(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), index=True)
+    description = db.Column(db.String(500))
+    batch_size = db.Column(db.String(64))
+
+    def __repr__(self):
+        return '<Brew {}>'.format(self.name)
+
+    def to_dict(self):
+        data = {
+            'id': self.id,
+            "name": self.name,
+            "description": self.description,
+            "batchSize": self.batch_size
+            # "ingredients": self.ingredients,
+            # "steps": self.steps,
+        }
+        return data
+
+    def from_dict(self, data, new_brew=False):
+        for field in ['name', 'description', 'batchSize']:
+            if field in data:
+                setattr(self, field, data[field])
+                
