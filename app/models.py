@@ -1,4 +1,5 @@
 from app import db
+from flask import url_for
 
 class PaginatedAPIMixin(object):
     @staticmethod
@@ -23,7 +24,7 @@ class PaginatedAPIMixin(object):
         }
         return data
 
-class Brew(db.Model):
+class Brew(PaginatedAPIMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), index=True)
     description = db.Column(db.String(500))
@@ -37,14 +38,14 @@ class Brew(db.Model):
             'id': self.id,
             "name": self.name,
             "description": self.description,
-            "batchSize": self.batch_size
+            "batch_size": self.batch_size
             # "ingredients": self.ingredients,
             # "steps": self.steps,
         }
         return data
 
-    def from_dict(self, data, new_brew=False):
-        for field in ['name', 'description', 'batchSize']:
+    def from_dict(self, data):
+        for field in ['name', 'description', 'batch_size']:
             if field in data:
                 setattr(self, field, data[field])
                 
